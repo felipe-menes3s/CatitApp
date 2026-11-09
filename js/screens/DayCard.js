@@ -1,32 +1,24 @@
 // "Tu día": the low-effort nutrition checklist on the Today screen. One tap per habit, no calorie counting.
 import { html, useState } from '../lib.js';
-import { HABITS, WATER_GOAL, PLATE_GUIDE } from '../data/nutrition.js';
+import { HABITS, PLATE_GUIDE } from '../data/nutrition.js';
 import { loadDayLog, saveDayLog, formatInt } from '../storage.js';
 import { Icon } from '../ui.js';
+import { Water, WATER_GOAL_ML } from './Water.js';
 
 function slotLabel(habit, slot, settings) {
   if (habit.id === 'steps') return `Llegué a ${formatInt(settings.stepsGoal)}`;
   return slot;
 }
 
-function isComplete(log) {
-  const habitsDone = HABITS.every(h => h.slots.every((_, i) => log[h.id]?.[i]));
-  return habitsDone && (log.water || 0) >= WATER_GOAL;
+// Water is stored in ml with a log of each add (for undo). Older days stored glasses of 250 ml.
+function waterOf(log) {
+  if (Array.isArray(log.waterLog)) return log.waterLog;
+  return Array(log.water || 0).fill(250);
 }
 
-function Water({ count, onAdd, onUndo }) {
-  return html`<div class="habit">
-    <div class="habit-head">
-      <span class="habit-name">Agua</span>
-      <span class="habit-count">${count} / ${WATER_GOAL} vasos</span>
-    </div>
-    <p class="muted small">Un vaso cada vez que amamantas es una buena regla.</p>
-    <div class="water-row">
-      <div class="water-bar"><span style=${{ width: `${Math.min(100, (count / WATER_GOAL) * 100)}%` }}></span></div>
-      <button class="round-btn soft" aria-label="Quitar un vaso" disabled=${count === 0} onClick=${onUndo}>−</button>
-      <button class="round-btn" aria-label="Agregar un vaso" onClick=${onAdd}>+</button>
-    </div>
-  </div>`;
+function isComplete(log) {
+  const habitsDone = HABITS.every(h => h.slots.every((_, i) => log[h.id]?.[i]));
+  return habitsDone && waterOf(log).reduce((a, b) => a + b, 0) >= WATER_GOAL_ML;
 }
 
 export function DayCard({ day, settings }) {
@@ -44,7 +36,9 @@ export function DayCard({ day, settings }) {
     update({ ...log, [habitId]: current });
   }
 
-  const water = log.water || 0;
+  const waterLog = waterOf(log);
+  const waterMl = waterLog.reduce((a, b) => a + b, 0);
+  const setWater = next => { const { water, ...rest } = log; update({ ...rest, waterLog: next }); };
 
   return html`<section>
     <h2>Tu día</h2>
@@ -57,8 +51,8 @@ export function DayCard({ day, settings }) {
             ${log[h.id]?.[i] && html`<${Icon} name="check" size=${14} />`}${slotLabel(h, slot, settings)}</button>`)}
         </div>
       </div>`)}
-      <${Water} count=${water} onAdd=${() => update({ ...log, water: water + 1 })}
-        onUndo=${() => update({ ...log, water: Math.max(0, water - 1) })} />
+      <${Water} ml=${waterMl} lastAdd=${waterLog[waterLog.length - 1]}
+        onAdd=${ml => setWater([...waterLog, ml])} onUndo=${() => setWater(waterLog.slice(0, -1))} />
 
       ${isComplete(log) && html`<p class="day-done">¡Lo lograste hoy! Tu cuerpo y tu bebé te lo agradecen.</p>`}
 

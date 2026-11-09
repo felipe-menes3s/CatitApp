@@ -2,14 +2,14 @@
 // - App files (same origin): network first, so updates arrive; cache when offline.
 // - Libraries and fonts (esm.sh, Google Fonts) and GIFs: cache first; they never change for a given URL.
 // Bump CACHE whenever a GIF changes under the same name (GIFs are cache-first).
-const CACHE = 'catitapp-v4';
+const CACHE = 'catitapp-v5';
 const NETWORK_TIMEOUT_MS = 3000; // weak gym signal: fall back to the cache instead of hanging
 
 const APP_SHELL = [
   './', 'index.html', 'manifest.json', 'css/app.css',
   'js/main.js', 'js/lib.js', 'js/themes.js', 'js/storage.js', 'js/session.js', 'js/ui.js',
   'js/data/exercises.js', 'js/data/routines.js',
-  'js/screens/Today.js', 'js/screens/Workout.js', 'js/screens/Settings.js', 'js/screens/Progress.js', 'js/screens/DayCard.js',
+  'js/screens/Today.js', 'js/screens/Workout.js', 'js/screens/Settings.js', 'js/screens/Progress.js', 'js/screens/DayCard.js', 'js/screens/Water.js',
   'js/weight.js', 'js/data/nutrition.js', 'brand/mark.svg', 'icon-512.png',
   'icon-192.png', 'apple-touch-icon.png',
   // All exercise images, so every routine works offline from the first launch.

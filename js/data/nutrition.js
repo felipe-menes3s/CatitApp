@@ -1,8 +1,6 @@
 // Daily nutrition checklist: no calorie counting, just 5 habits that add up to ~1,900 kcal and ~100 g protein.
 // Sources: NASEM/IOM lactation DRI (+330–500 kcal), Lovelady 2000, CDC maternal diet, KellyMom.
 
-export const WATER_GOAL = 12; // glasses of 250 mL ≈ 3 L (lactation AI 3.8 L total water, dry Utah climate)
-
 export const HABITS = [
   { id: 'protein', name: 'Proteína en cada comida', help: 'Una porción del tamaño de tu palma: huevo, pollo, carne, pescado, yogur griego o frijoles.',
     slots: ['Desayuno', 'Almuerzo', 'Cena'] },

@@ -112,7 +112,7 @@ export function saveReadyToProgress(exerciseId, ready) {
   write('readyToProgress', all);
 }
 
-// ---- Daily habits: { protein: [bool×3], veg: [bool×2], vitamin: [bool], steps: [bool], water: number }
+// ---- Daily habits: { protein: [bool×3], veg: [bool×2], vitamin: [bool], steps: [bool], waterLog: [ml per add] }
 export function loadDayLog(day) {
   return read(`day:${day}`, {});
 }
