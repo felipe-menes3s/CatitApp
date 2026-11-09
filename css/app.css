@@ -1,0 +1,118 @@
+/* Colors come from CSS variables set by js/themes.js. Defaults = "Arena y rosa", light. */
+:root {
+  --bg: #F7F2EC; --card: #FFFDFB; --ink: #4A3B36; --muted: #9A8A83; --line: #EDE4DC;
+  --accent: #C99189; --accentSoft: #F4E3DF; --accentInk: #A8665D; --onAccent: #FFFFFF;
+  --radius: 22px;
+  --tabs-h: 64px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg); color: var(--ink); }
+body {
+  font-family: Inter, -apple-system, system-ui, sans-serif;
+  font-size: 16px; line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  transition: background .3s ease, color .3s ease;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+input { font: inherit; color: inherit; }
+
+.app { min-height: 100dvh; }
+main { padding: calc(env(safe-area-inset-top) + 20px) 20px calc(var(--tabs-h) + env(safe-area-inset-bottom) + 28px); max-width: 560px; margin: 0 auto; }
+.screen-body { display: flex; flex-direction: column; gap: 16px; }
+.fade-in { animation: fadeIn .35s ease backwards; } /* "backwards": after the animation ends, no transform stays, so fixed sheets are not trapped */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+header { padding: 8px 2px 4px; }
+h1 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 32px; line-height: 1.1; letter-spacing: -.01em; }
+h2 { font-size: 15px; font-weight: 600; margin: 8px 2px 10px; }
+section { display: flex; flex-direction: column; gap: 10px; }
+section > h2 { margin-bottom: 0; }
+.eyebrow { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.eyebrow::first-letter { text-transform: uppercase; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; text-align: left; }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; transition: background .3s ease, border-color .3s ease; }
+
+.btn { display: block; width: 100%; background: var(--accent); color: var(--onAccent); border-radius: 16px; padding: 16px; font-weight: 600; font-size: 16px; text-align: center; transition: transform .1s ease, opacity .2s; }
+.btn:active { transform: scale(.98); }
+.btn.soft { background: var(--accentSoft); color: var(--accentInk); }
+.link { display: inline-flex; align-items: center; gap: 6px; align-self: center; color: var(--accentInk); font-weight: 500; font-size: 14px; padding: 8px; text-decoration: none; }
+
+.chip { font-size: 12px; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: var(--accentSoft); color: var(--accentInk); flex: none; }
+
+/* Ring */
+.ring { flex: none; }
+.ring-text { font-size: 14px; font-weight: 600; fill: var(--ink); }
+
+/* Today */
+.week { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.week-day { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 0 8px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+.week-label { font-size: 12px; color: var(--muted); }
+.week-num { font-size: 17px; font-weight: 600; }
+.week-mark { height: 14px; color: var(--accentInk); }
+.week-day.today { background: var(--accent); border-color: var(--accent); color: var(--onAccent); }
+.week-day.today .week-label, .week-day.today .week-mark { color: var(--onAccent); }
+.today-card { display: flex; align-items: center; gap: 16px; }
+.today-name { font-size: 19px; font-weight: 600; }
+.rest-card { display: flex; flex-direction: column; gap: 10px; }
+
+/* Bottom sheet */
+.sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.35); display: flex; align-items: flex-end; z-index: 20; animation: fadeIn .2s ease backwards; }
+.sheet { width: 100%; max-width: 560px; margin: 0 auto; background: var(--bg); border-radius: 26px 26px 0 0; padding: 22px 18px calc(env(safe-area-inset-bottom) + 22px); display: flex; flex-direction: column; gap: 8px; }
+.sheet-title { font-weight: 600; font-size: 17px; margin: 0 4px 6px; }
+.pick { display: flex; align-items: center; justify-content: space-between; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+.pick span { display: flex; flex-direction: column; gap: 2px; }
+.pick small { color: var(--muted); font-size: 13px; }
+.pick.on { border-color: var(--accent); color: var(--accentInk); }
+
+/* Segmented control */
+.segmented { display: flex; background: var(--accentSoft); border-radius: 14px; padding: 4px; }
+.segmented button { flex: 1; padding: 10px; border-radius: 11px; font-weight: 500; font-size: 14px; color: var(--accentInk); transition: background .2s, color .2s; }
+.segmented button.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+/* Workout */
+.exercise { padding: 12px; }
+.exercise-head { display: flex; align-items: center; gap: 14px; width: 100%; }
+.ex-name { font-weight: 600; font-size: 16px; }
+.exercise.done .ex-name { color: var(--muted); }
+.chev { color: var(--muted); transition: transform .2s; }
+.chev.open { transform: rotate(90deg); }
+.exercise-body { display: flex; flex-direction: column; gap: 10px; padding-top: 14px; animation: fadeIn .25s ease backwards; }
+.gif { border-radius: 14px; background: #fff; object-fit: contain; flex: none; display: block; }
+.gif-missing { display: flex; align-items: center; justify-content: center; background: var(--accentSoft); color: var(--accentInk); }
+.gif-large { display: flex; justify-content: center; }
+.tip { font-size: 14px; line-height: 1.5; color: var(--ink); }
+
+.set-row { display: flex; align-items: center; gap: 10px; }
+.set-n { width: 22px; text-align: center; color: var(--muted); font-weight: 600; font-size: 14px; }
+.field { flex: 1; display: flex; align-items: center; gap: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 0 12px; height: 46px; }
+.field input { width: 100%; border: 0; background: none; outline: none; font-size: 17px; font-weight: 600; min-width: 0; }
+.field input::placeholder { color: var(--muted); font-weight: 500; }
+.field span { color: var(--muted); font-size: 13px; }
+.check { width: 46px; height: 46px; border-radius: 12px; border: 1.5px solid var(--line); color: var(--muted); display: flex; align-items: center; justify-content: center; flex: none; transition: background .2s, color .2s, border-color .2s; }
+.set-row.ok .check { background: var(--accent); border-color: var(--accent); color: var(--onAccent); }
+.set-row.ok .field { opacity: .6; }
+
+.finish-card { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; color: var(--accentInk); padding: 24px; }
+.finish-card .today-name { color: var(--ink); }
+
+/* Settings */
+.text-input { width: 100%; height: 50px; padding: 0 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--card); font-size: 16px; outline: none; }
+.text-input:focus { border-color: var(--accent); }
+.palette-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.palette { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px; background: var(--card); border: 1.5px solid var(--line); border-radius: 18px; text-align: left; }
+.palette.on { border-color: var(--accent); }
+.palette-swatches { display: flex; gap: 6px; }
+.palette-swatches span { width: 26px; height: 26px; border-radius: 9px; border: 1px solid rgba(0,0,0,.06); }
+.palette-name { font-weight: 500; font-size: 14px; }
+.palette-check { position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--onAccent); display: flex; align-items: center; justify-content: center; }
+.rules { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.5; }
+
+/* Tab bar */
+.tabs { position: fixed; left: 0; right: 0; bottom: 0; display: flex; background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); z-index: 10; transition: background .3s ease; }
+.tabs button { flex: 1; height: var(--tabs-h); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; font-weight: 500; color: var(--muted); }
+.tabs button.on { color: var(--accentInk); font-weight: 600; }
