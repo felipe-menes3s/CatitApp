@@ -7,10 +7,13 @@ const UNITS = [{ id: 'lb', name: 'Libras' }, { id: 'kg', name: 'Kilos' }];
 
 const BACK_RULES = [
   'Si algo duele en la espalda baja, para ese ejercicio y sigue con el próximo.',
-  'Bota el aire al hacer fuerza. Nunca aguantes la respiración.',
+  'Suelta el aire al hacer fuerza. Nunca aguantes la respiración.',
   'Abdomen firme y espalda neutra, como si te fueran a tocar la panza.',
   'Nada de saltos, carreras, abdominales tipo crunch ni giros con peso.',
   'Amamanta antes de entrenar y lleva agua.',
+  'Para y habla con tu doctora si sientes escapes de orina, sensación de peso o bulto en la vagina, vuelve el sangrado, o el dolor de la espalda baja se corre hacia la pierna.',
+  'Para y habla con tu doctora el mismo día si sientes mareo, dolor en el pecho, o dolor o hinchazón en la pantorrilla.',
+  'Ve a urgencias si se te duerme la zona entre las piernas, sientes debilidad en una pierna, o de pronto no puedes orinar o controlar el intestino.',
 ];
 
 function PaletteOption({ palette, selected, onPick }) {

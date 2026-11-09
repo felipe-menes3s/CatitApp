@@ -1,9 +1,10 @@
 // App shell: holds settings and today's session, and switches between the 3 tabs.
 import { html, useState, useEffect, createRoot } from './lib.js';
 import { applyTheme, onSystemModeChange } from './themes.js';
-import { loadSettings, saveSettings, loadSession, saveSession, saveLastWeight, dateKey } from './storage.js';
+import { loadSettings, saveSettings, loadSession, saveSession, saveLastWeight, saveReadyToProgress,
+  loadReadyToProgress, askPersistentStorage, dateKey } from './storage.js';
 import { routineForDay } from './data/routines.js';
-import { newSession } from './session.js';
+import { newSession, isValidSession, isInRampUp } from './session.js';
 import { Icon } from './ui.js';
 import { Today } from './screens/Today.js';
 import { Workout } from './screens/Workout.js';
@@ -19,7 +20,7 @@ function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [tab, setTab] = useState('today');
   const [day, setDay] = useState(() => dateKey());
-  const [session, setSession] = useState(() => loadSession(dateKey()));
+  const [session, setSession] = useState(() => loadValidSession(dateKey()));
   const plannedId = routineForDay(new Date())?.id || null;
 
   useEffect(() => {
@@ -31,7 +32,7 @@ function App() {
   useEffect(() => {
     function refreshDay() {
       const now = dateKey();
-      if (now !== day) { setDay(now); setSession(loadSession(now)); }
+      if (now !== day) { setDay(now); setSession(loadValidSession(now)); setRampUp(isInRampUp()); setReady(loadReadyToProgress()); }
     }
     document.addEventListener('visibilitychange', refreshDay);
     return () => document.removeEventListener('visibilitychange', refreshDay);
@@ -42,26 +43,34 @@ function App() {
     saveSettings(next);
   }
 
-  function updateSession(next, lastWeight) {
+  function updateSession(next, change) {
     setSession(next);
     saveSession(day, next);
-    if (lastWeight) saveLastWeight(lastWeight.exId, lastWeight.weight);
+    if (change?.weight) saveLastWeight(change.exId, change.weight, settings.unit);
+    // Saved only when an exercise is complete, so a half-done day does not erase what she earned last time.
+    if (change && change.topOfRange !== undefined) saveReadyToProgress(change.exId, change.topOfRange);
   }
 
+  // Recomputed when the day changes: her first 10 finished workouts are the adaptation period.
+  const [rampUp, setRampUp] = useState(isInRampUp);
+  // "Add weight" hints earned in the PREVIOUS workout, read once per day so they stay visible all workout.
+  const [ready, setReady] = useState(loadReadyToProgress);
+
   function chooseRoutine(routineId) {
-    updateSession(newSession(routineId, session?.place));
+    updateSession(newSession(routineId, session?.place, rampUp));
   }
 
   // Opening "Entrenar" with no session yet starts today's planned routine.
-  const workoutSession = session || (plannedId && newSession(plannedId));
+  const workoutSession = session || (plannedId && newSession(plannedId, 'gym', rampUp));
 
   return html`<div class="app">
     <main>
-      ${tab === 'today' && html`<${Today} settings=${settings} session=${session} plannedId=${plannedId}
+      ${tab === 'today' && html`<${Today} settings=${settings} session=${session} plannedId=${plannedId} rampUp=${rampUp}
         onChooseRoutine=${id => { chooseRoutine(id); setTab('workout'); }} onGo=${() => setTab('workout')} />`}
       ${tab === 'workout' && (workoutSession
-        ? html`<${Workout} session=${workoutSession} settings=${settings} onChange=${updateSession}
-            onFinish=${() => updateSession({ ...workoutSession, finishedAt: new Date().toISOString() })} />`
+        ? html`<${Workout} session=${workoutSession} settings=${settings} ready=${ready} onChange=${updateSession}
+            onFinish=${() => updateSession({ ...workoutSession, finishedAt: new Date().toISOString() })}
+            onReopen=${() => updateSession({ ...workoutSession, finishedAt: null })} />`
         : html`<div class="screen-body fade-in"><header><h1>Hoy es descanso</h1></header>
             <p class="muted">Si quieres entrenar igual, elige una rutina en «Hoy».</p></div>`)}
       ${tab === 'settings' && html`<${Settings} settings=${settings} onChange=${updateSettings} />`}
@@ -72,5 +81,14 @@ function App() {
     </nav>
   </div>`;
 }
+
+// A session saved by an older version (renamed routine or exercise) is dropped instead of crashing the app.
+function loadValidSession(day) {
+  const saved = loadSession(day);
+  return isValidSession(saved) ? saved : null;
+}
+
+askPersistentStorage();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 
 createRoot(document.getElementById('root')).render(html`<${App} />`);

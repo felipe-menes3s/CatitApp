@@ -2,7 +2,7 @@
 import { html, useState } from '../lib.js';
 import { ROUTINES, routineById } from '../data/routines.js';
 import { loadSession, dateKey, mondayOf } from '../storage.js';
-import { progressOf, hasStarted } from '../session.js';
+import { progressOf, hasStarted, isFinished } from '../session.js';
 import { Ring, Icon } from '../ui.js';
 
 const WEEKDAYS = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'];
@@ -24,7 +24,7 @@ function WeekStrip({ today }) {
       const day = new Date(monday); day.setDate(monday.getDate() + i);
       const key = dateKey(day);
       const session = loadSession(key);
-      const finished = !!session?.finishedAt;
+      const finished = isFinished(session);
       const cls = ['week-day', key === todayKey ? 'today' : '', finished ? 'done' : ''].join(' ');
       return html`<div key=${key} class=${cls}>
         <span class="week-label">${label}</span>
@@ -47,13 +47,13 @@ function RoutinePicker({ currentId, onPick, onClose }) {
   </div>`;
 }
 
-export function Today({ settings, session, plannedId, onChooseRoutine, onGo }) {
+export function Today({ settings, session, plannedId, rampUp, onChooseRoutine, onGo }) {
   const [picking, setPicking] = useState(false);
   const now = new Date();
   const routineId = session?.routineId || plannedId;
   const routine = routineId && routineById(routineId);
-  const { done, total } = progressOf(session || (routine && { routineId, place: 'gym', items: {} }));
-  const finished = !!session?.finishedAt;
+  const { done, total } = progressOf(session || (routine && { routineId, place: 'gym', rampUp, items: {} }));
+  const finished = isFinished(session);
   const started = hasStarted(session);
   const dateText = now.toLocaleDateString('es', { weekday: 'long', day: 'numeric', month: 'long' });
 
@@ -82,7 +82,10 @@ export function Today({ settings, session, plannedId, onChooseRoutine, onGo }) {
       <button class="btn" onClick=${onGo}>
         ${finished ? 'Ver lo que hiciste' : started ? 'Continuar' : 'Empezar'}
       </button>
-      ${!started && html`<button class="link" onClick=${() => setPicking(true)}>Cambiar rutina</button>`}
+      ${!started && html`<div class="today-links">
+        <button class="link" onClick=${() => setPicking(true)}>Cambiar rutina</button>
+        ${routineId !== 'easy' && html`<button class="link" onClick=${() => onChooseRoutine('easy')}>Dormí mal: día suave</button>`}
+      </div>`}
     ` : html`
       <div class="card rest-card">
         <div class="today-name">Hoy es descanso</div>

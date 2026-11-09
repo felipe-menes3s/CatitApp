@@ -10,8 +10,18 @@ function read(key, fallback) {
   }
 }
 
+// Never let a full or blocked storage break a tap: the app keeps working in memory.
 function write(key, value) {
-  localStorage.setItem(PREFIX + key, JSON.stringify(value));
+  try {
+    localStorage.setItem(PREFIX + key, JSON.stringify(value));
+  } catch (err) {
+    console.warn('CatitApp: could not save', key, err);
+  }
+}
+
+// Ask the browser not to delete our data when the phone needs space.
+export function askPersistentStorage() {
+  navigator.storage?.persist?.().catch(() => {});
 }
 
 // ---- Dates (local time, not UTC, so a 6 AM workout is never saved on the wrong day)
@@ -41,7 +51,7 @@ export function saveSettings(settings) {
 }
 
 // ---- Workout sessions, one per day
-// { routineId, place: 'gym' | 'home', items: { [itemKey]: { sets: [{ w, r, ok }], ok } }, finishedAt }
+// { routineId, place: 'gym' | 'home', rampUp, items: { [itemKey]: { sets: [{ w, r, ok }], ok } }, finishedAt }
 export function loadSession(day) {
   return read(`session:${day}`, null);
 }
@@ -50,13 +60,48 @@ export function saveSession(day, session) {
   write(`session:${day}`, session);
 }
 
-// ---- Last weight used per exercise, to suggest it next time
+// Every saved workout day (used to count finished workouts for the ramp-up).
+export function loadAllSessions() {
+  const sessions = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key?.startsWith(PREFIX + 'session:')) sessions.push(read(key.slice(PREFIX.length), null));
+  }
+  return sessions.filter(Boolean);
+}
+
+// ---- Weights. Accepts "12,5" (Spanish keyboards) and "12.5". Returns null when not a number.
+export function parseWeight(text) {
+  const value = parseFloat(String(text ?? '').replace(',', '.'));
+  return Number.isFinite(value) && value > 0 ? value : null;
+}
+
+const LB_PER_KG = 2.20462;
+
+export function convertWeight(value, from, to) {
+  if (from === to) return value;
+  const converted = from === 'kg' ? value * LB_PER_KG : value / LB_PER_KG;
+  return Math.round(converted * 2) / 2; // nearest 0.5
+}
+
+// Last weight per exercise, with its unit: { [exerciseId]: { value, unit } }
 export function loadLastWeights() {
   return read('lastWeights', {});
 }
 
-export function saveLastWeight(exerciseId, weight) {
+export function saveLastWeight(exerciseId, value, unit) {
   const all = loadLastWeights();
-  all[exerciseId] = weight;
+  all[exerciseId] = { value, unit };
   write('lastWeights', all);
+}
+
+// Exercises where she reached the top of the rep range in every round last time.
+export function loadReadyToProgress() {
+  return read('readyToProgress', {});
+}
+
+export function saveReadyToProgress(exerciseId, ready) {
+  const all = loadReadyToProgress();
+  if (ready) all[exerciseId] = true; else delete all[exerciseId];
+  write('readyToProgress', all);
 }
