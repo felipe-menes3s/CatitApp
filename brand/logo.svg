@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 150 432 250" width="864" height="500">
+  <g>
+  <defs>
+    <linearGradient id="left" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DDA9A1"/><stop offset="1" stop-color="#C58A82"/>
+    </linearGradient>
+    <linearGradient id="right" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9E5E56"/><stop offset="1" stop-color="#7E4741"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F2C6BD"/><stop offset="1" stop-color="#DB968C"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset=".55" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- left side -->
+  <rect x="62" y="224" width="25" height="38" rx="5" fill="url(#left)"/>
+  <rect x="92" y="191" width="36" height="107" rx="7" fill="url(#left)"/>
+  <rect x="133" y="170" width="44" height="155" rx="8" fill="url(#left)"/>
+  <rect x="133" y="170" width="44" height="155" rx="8" fill="url(#sheen)"/>
+  <polygon points="181,231 220,231 196,268 181,268" fill="#C58A82"/>
+  <!-- right side -->
+  <polygon points="331,232 331,262 296,262" fill="#9E5E56"/>
+  <rect x="331" y="170" width="44" height="155" rx="8" fill="url(#right)"/>
+  <rect x="331" y="170" width="44" height="155" rx="8" fill="url(#sheen)"/>
+  <rect x="381" y="191" width="36" height="107" rx="7" fill="url(#right)"/>
+  <rect x="424" y="224" width="25" height="38" rx="5" fill="url(#right)"/>
+  <!-- bolt -->
+  <polygon points="272,168 211,262 255,262 233,322 307,231 263,231" fill="url(#bolt)"/>
+</g>
+  <text x="256" y="388" text-anchor="middle" font-family="Inter, -apple-system, Helvetica, sans-serif" font-size="44" font-weight="800" letter-spacing="4" fill="#4A3B36">CATITAPP</text>
+</svg>

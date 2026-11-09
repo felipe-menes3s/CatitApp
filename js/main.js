@@ -1,4 +1,4 @@
-// App shell: holds settings and today's session, and switches between the 3 tabs.
+// App shell: holds settings and today's session, and switches between the 4 tabs.
 import { html, useState, useEffect, createRoot } from './lib.js';
 import { applyTheme, onSystemModeChange } from './themes.js';
 import { loadSettings, saveSettings, loadSession, saveSession, saveLastWeight, saveReadyToProgress,
@@ -9,10 +9,12 @@ import { Icon } from './ui.js';
 import { Today } from './screens/Today.js';
 import { Workout } from './screens/Workout.js';
 import { Settings } from './screens/Settings.js';
+import { Progress } from './screens/Progress.js';
 
 const TABS = [
   { id: 'today', name: 'Hoy', icon: 'home' },
   { id: 'workout', name: 'Entrenar', icon: 'dumbbell' },
+  { id: 'progress', name: 'Progreso', icon: 'chart' },
   { id: 'settings', name: 'Ajustes', icon: 'gear' },
 ];
 
@@ -65,7 +67,7 @@ function App() {
 
   return html`<div class="app">
     <main>
-      ${tab === 'today' && html`<${Today} settings=${settings} session=${session} plannedId=${plannedId} rampUp=${rampUp}
+      ${tab === 'today' && html`<${Today} day=${day} settings=${settings} session=${session} plannedId=${plannedId} rampUp=${rampUp}
         onChooseRoutine=${id => { chooseRoutine(id); setTab('workout'); }} onGo=${() => setTab('workout')} />`}
       ${tab === 'workout' && (workoutSession
         ? html`<${Workout} session=${workoutSession} settings=${settings} ready=${ready} onChange=${updateSession}
@@ -73,6 +75,7 @@ function App() {
             onReopen=${() => updateSession({ ...workoutSession, finishedAt: null })} />`
         : html`<div class="screen-body fade-in"><header><h1>Hoy es descanso</h1></header>
             <p class="muted">Si quieres entrenar igual, elige una rutina en «Hoy».</p></div>`)}
+      ${tab === 'progress' && html`<${Progress} settings=${settings} />`}
       ${tab === 'settings' && html`<${Settings} settings=${settings} onChange=${updateSettings} />`}
     </main>
     <nav class="tabs">

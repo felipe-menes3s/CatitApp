@@ -4,6 +4,7 @@ import { ROUTINES, routineById } from '../data/routines.js';
 import { loadSession, dateKey, mondayOf } from '../storage.js';
 import { progressOf, hasStarted, isFinished } from '../session.js';
 import { Ring, Icon } from '../ui.js';
+import { DayCard } from './DayCard.js';
 
 const WEEKDAYS = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'];
 
@@ -47,7 +48,7 @@ function RoutinePicker({ currentId, onPick, onClose }) {
   </div>`;
 }
 
-export function Today({ settings, session, plannedId, rampUp, onChooseRoutine, onGo }) {
+export function Today({ day, settings, session, plannedId, rampUp, onChooseRoutine, onGo }) {
   const [picking, setPicking] = useState(false);
   const now = new Date();
   const routineId = session?.routineId || plannedId;
@@ -93,6 +94,8 @@ export function Today({ settings, session, plannedId, rampUp, onChooseRoutine, o
         <button class="btn soft" onClick=${() => setPicking(true)}>Entrenar igual</button>
       </div>
     `}
+
+    <${DayCard} key=${day} day=${day} settings=${settings} />
 
     ${picking && html`<${RoutinePicker} currentId=${routineId} onPick=${pick} onClose=${() => setPicking(false)} />`}
   </div>`;

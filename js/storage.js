@@ -40,7 +40,8 @@ export function mondayOf(date = new Date()) {
 }
 
 // ---- Settings
-export const DEFAULT_SETTINGS = { name: 'Catita', palette: 'arena', mode: 'auto', unit: 'lb' };
+// goalKg / idealKg: her targets (56 and 54 kg). stepsGoal starts low and grows (trainer: +1,000 a week up to 8,000).
+export const DEFAULT_SETTINGS = { name: 'Catita', palette: 'arena', mode: 'auto', unit: 'lb', goalKg: 56, idealKg: 54, stepsGoal: 6000 };
 
 export function loadSettings() {
   return { ...DEFAULT_SETTINGS, ...read('settings', {}) };
@@ -70,10 +71,15 @@ export function loadAllSessions() {
   return sessions.filter(Boolean);
 }
 
+// "6.000": Spanish thousands separator (toLocaleString('es') skips it for 4-digit numbers).
+export const formatInt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
 // ---- Weights. Accepts "12,5" (Spanish keyboards) and "12.5". Returns null when not a number.
 export function parseWeight(text) {
-  const value = parseFloat(String(text ?? '').replace(',', '.'));
-  return Number.isFinite(value) && value > 0 ? value : null;
+  const clean = String(text ?? '').trim().replace(',', '.');
+  if (!/^\d+(\.\d+)?$/.test(clean)) return null; // rejects "68abc" and "1.2.3"
+  const value = parseFloat(clean);
+  return value > 0 ? value : null;
 }
 
 const LB_PER_KG = 2.20462;
@@ -104,4 +110,28 @@ export function saveReadyToProgress(exerciseId, ready) {
   const all = loadReadyToProgress();
   if (ready) all[exerciseId] = true; else delete all[exerciseId];
   write('readyToProgress', all);
+}
+
+// ---- Daily habits: { protein: [bool×3], veg: [bool×2], vitamin: [bool], steps: [bool], water: number }
+export function loadDayLog(day) {
+  return read(`day:${day}`, {});
+}
+
+export function saveDayLog(day, log) {
+  write(`day:${day}`, log);
+}
+
+// ---- Weekly weigh-ins: [{ date, kg, diapersOk, supplyDown }], one per week (a new one in the same week replaces it).
+export function loadWeights() {
+  return read('weights', []);
+}
+
+export function saveWeighIn(entry) {
+  const sameWeek = e => mondayOf(new Date(e.date + 'T12:00')).getTime() === mondayOf(new Date(entry.date + 'T12:00')).getTime();
+  const others = loadWeights().filter(e => !sameWeek(e));
+  write('weights', [...others, entry].sort((a, b) => a.date.localeCompare(b.date)));
+}
+
+export function deleteWeighIn(date) {
+  write('weights', loadWeights().filter(e => e.date !== date));
 }

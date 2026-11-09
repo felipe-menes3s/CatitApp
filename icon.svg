@@ -1,6 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9F1EA"/><stop offset="1" stop-color="#F1DDD6"/></linearGradient></defs>
-  <rect width="512" height="512" fill="url(#g)"/>
-  <path d="M256 392s-120-74-120-170a66 66 0 0 1 120-38 66 66 0 0 1 120 38c0 96-120 170-120 170z" fill="#C99189"/>
-  <path d="M206 262h100M196 244v36M316 244v36M184 252v20M328 252v20" stroke="#FFFDFB" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBF7F2"/><stop offset="1" stop-color="#F3E9E1"/></linearGradient></defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g transform="translate(256 256) scale(1.02) translate(-256 -248)">
+    
+  <defs>
+    <linearGradient id="left" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#DDA9A1"/><stop offset="1" stop-color="#C58A82"/>
+    </linearGradient>
+    <linearGradient id="right" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9E5E56"/><stop offset="1" stop-color="#7E4741"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#F2C6BD"/><stop offset="1" stop-color="#DB968C"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".18"/><stop offset=".55" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- left side -->
+  <rect x="62" y="224" width="25" height="38" rx="5" fill="url(#left)"/>
+  <rect x="92" y="191" width="36" height="107" rx="7" fill="url(#left)"/>
+  <rect x="133" y="170" width="44" height="155" rx="8" fill="url(#left)"/>
+  <rect x="133" y="170" width="44" height="155" rx="8" fill="url(#sheen)"/>
+  <polygon points="181,231 220,231 196,268 181,268" fill="#C58A82"/>
+  <!-- right side -->
+  <polygon points="331,232 331,262 296,262" fill="#9E5E56"/>
+  <rect x="331" y="170" width="44" height="155" rx="8" fill="url(#right)"/>
+  <rect x="331" y="170" width="44" height="155" rx="8" fill="url(#sheen)"/>
+  <rect x="381" y="191" width="36" height="107" rx="7" fill="url(#right)"/>
+  <rect x="424" y="224" width="25" height="38" rx="5" fill="url(#right)"/>
+  <!-- bolt -->
+  <polygon points="272,168 211,262 255,262 233,322 307,231 263,231" fill="url(#bolt)"/>
+
+  </g>
 </svg>

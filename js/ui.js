@@ -11,6 +11,7 @@ const ICONS = {
   chevron: 'M9 6l6 6-6 6',
   video: 'M15 10l5-3v10l-5-3zM3 7h12v10H3z',
   heart: 'M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z',
+  chart: 'M4 19h16M6 15l4-4 3 3 5-6',
 };
 
 export function Icon({ name, size = 22, fill = false }) {

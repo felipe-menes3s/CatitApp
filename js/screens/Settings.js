@@ -3,7 +3,10 @@ import { html } from '../lib.js';
 import { PALETTES, MODES } from '../themes.js';
 import { Segmented, Icon } from '../ui.js';
 
+import { parseWeight, formatInt } from '../storage.js';
+
 const UNITS = [{ id: 'lb', name: 'Libras' }, { id: 'kg', name: 'Kilos' }];
+const STEP_GOALS = [5000, 6000, 7000, 8000, 10000].map(n => ({ id: n, name: formatInt(n) }));
 
 const BACK_RULES = [
   'Si algo duele en la espalda baja, para ese ejercicio y sigue con el próximo.',
@@ -53,8 +56,27 @@ export function Settings({ settings, onChange }) {
     </section>
 
     <section>
-      <h2>Pesas</h2>
+      <h2>Unidad de peso</h2>
       <${Segmented} options=${UNITS} value=${settings.unit} onChange=${unit => set({ unit })} />
+      <p class="muted small">Para las pesas y para tu peso.</p>
+    </section>
+
+    <section>
+      <h2>Tus metas (en kilos)</h2>
+      <div class="goal-inputs">
+        <label class="field"><span>Meta</span>
+          <input inputmode="decimal" defaultValue=${String(settings.goalKg).replace('.', ',')}
+            onBlur=${e => { const v = parseWeight(e.target.value); if (v) set({ goalKg: v }); }} /><span>kg</span></label>
+        <label class="field"><span>Ideal</span>
+          <input inputmode="decimal" defaultValue=${String(settings.idealKg).replace('.', ',')}
+            onBlur=${e => { const v = parseWeight(e.target.value); if (v) set({ idealKg: v }); }} /><span>kg</span></label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Meta de pasos al día</h2>
+      <${Segmented} options=${STEP_GOALS} value=${settings.stepsGoal} onChange=${stepsGoal => set({ stepsGoal })} />
+      <p class="muted small">Empieza cerca de lo que ya caminas y sube 1.000 por semana, hasta 8.000.</p>
     </section>
 
     <section>
@@ -63,5 +85,10 @@ export function Settings({ settings, onChange }) {
         <ol class="rules">${BACK_RULES.map(r => html`<li key=${r}>${r}</li>`)}</ol>
       </div>
     </section>
+
+    <footer class="brand-footer">
+      <img src="brand/mark.svg" alt="" width="96" height="96" />
+      <span>CatitApp</span>
+    </footer>
   </div>`;
 }

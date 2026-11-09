@@ -11,25 +11,24 @@ const PELVIC_FLOOR = { id: 'pelvic_breath', text: '6 respiraciones' };
 
 const WARMUP_LEGS = { title: 'Calentamiento', items: [
   WALK_FIRST, PELVIC_FLOOR,
-  { id: 'cat_cow', text: '6 veces' },
   { id: 'hip_circles', text: '8 por lado' },
 ] };
 
 export const ROUTINES = [
   {
-    id: 'legs_a', day: 1, name: 'Pierna y glúteo', focus: 'Sentadilla y step', minutes: 40,
+    id: 'legs_a', day: 1, name: 'Pierna y glúteo', focus: 'Sentadilla y zancada', minutes: 40,
     blocks: [
       WARMUP_LEGS,
       { title: 'Circuito', rounds: 3, items: [
         { id: 'goblet_squat', reps: [10, 12] },
-        { id: 'step_up', reps: [8, 10], perSide: true },
+        { id: 'split_squat', reps: [8, 10], perSide: true },
         { id: 'glute_bridge', reps: [12, 15] },
         { id: 'side_plank', seconds: 15, perSide: true },
       ] },
-      { title: 'Cardio', items: [{ id: 'incline_walk', minutes: 16, home: 'step_cardio' }] },
+      { title: 'Cardio', items: [{ id: 'incline_walk', minutes: 16, home: 'march' }] },
       { title: 'Estirar', items: [
         { id: 'quad_stretch', text: '30 s por lado' },
-        { id: 'glute_stretch_lying', text: '30 s por lado' },
+        { id: 'calf_stretch', text: '30 s por lado' },
         { id: 'hip_flexor_stretch', text: '30 s por lado' },
       ] },
     ],
@@ -40,7 +39,6 @@ export const ROUTINES = [
       { title: 'Calentamiento', items: [
         WALK_FIRST, PELVIC_FLOOR,
         { id: 'arm_circles', text: '30 segundos' },
-        { id: 'cat_cow', text: '6 veces' },
       ] },
       { title: 'Circuito', rounds: 2, items: [
         { id: 'db_row', reps: [10, 12], perSide: true },
@@ -50,10 +48,10 @@ export const ROUTINES = [
         { id: 'bird_dog', reps: 4, hold: 8, perSide: true },
         { id: 'side_plank', seconds: 15, perSide: true },
       ] },
-      { title: 'Cardio', items: [{ id: 'stairmaster', minutes: 16, home: 'step_cardio' }] },
+      { title: 'Cardio', items: [{ id: 'stairmaster', minutes: 16, home: 'march' }] },
       { title: 'Estirar', items: [
         { id: 'hip_flexor_stretch', text: '30 s por lado' },
-        { id: 'glute_stretch_lying', text: '30 s por lado' },
+        { id: 'quad_stretch', text: '30 s por lado' },
       ] },
     ],
   },
@@ -67,9 +65,9 @@ export const ROUTINES = [
         { id: 'bench_bridge', reps: [10, 12] },
         { id: 'dead_bug', reps: 6, perSide: true },
       ] },
-      { title: 'Cardio', items: [{ id: 'incline_walk', minutes: 16, home: 'step_cardio', note: 'Opcional: 2 min con +2 % de inclinación y 2 min normal.' }] },
+      { title: 'Cardio', items: [{ id: 'incline_walk', minutes: 16, home: 'march', note: 'Opcional: 2 min con +2 % de inclinación y 2 min normal.' }] },
       { title: 'Estirar', items: [
-        { id: 'glute_stretch_lying', text: '30 s por lado' },
+        { id: 'quad_stretch', text: '30 s por lado' },
         { id: 'hip_flexor_stretch', text: '30 s por lado' },
         { id: 'calf_stretch', text: '30 s por lado' },
       ] },
@@ -79,7 +77,7 @@ export const ROUTINES = [
     id: 'cardio_core', day: 4, name: 'Cardio y centro', focus: 'Caminata larga y McGill', minutes: 40,
     blocks: [
       { title: 'Calentamiento', items: [WALK_FIRST, PELVIC_FLOOR] },
-      { title: 'Cardio', items: [{ id: 'incline_walk', minutes: 22, home: 'step_cardio' }] },
+      { title: 'Cardio', items: [{ id: 'incline_walk', minutes: 22, home: 'march' }] },
       { title: 'Centro', rounds: 2, items: [
         { id: 'curl_up', reps: 5, hold: 8 },
         { id: 'bird_dog', reps: 4, hold: 8, perSide: true },
@@ -88,7 +86,7 @@ export const ROUTINES = [
       ] },
       { title: 'Estirar', items: [
         { id: 'hip_flexor_stretch', text: '30 s por lado' },
-        { id: 'glute_stretch_lying', text: '30 s por lado' },
+        { id: 'quad_stretch', text: '30 s por lado' },
       ] },
     ],
   },
@@ -106,10 +104,10 @@ export const ROUTINES = [
         { id: 'farmer_carry', seconds: 40 },
         { id: 'incline_pushup', reps: [8, 12] },
       ] },
-      { title: 'Cardio', items: [{ id: 'stairmaster', minutes: 16, home: 'step_cardio' }] },
+      { title: 'Cardio', items: [{ id: 'stairmaster', minutes: 16, home: 'march' }] },
       { title: 'Estirar', items: [
         { id: 'quad_stretch', text: '30 s por lado' },
-        { id: 'glute_stretch_lying', text: '30 s por lado' },
+        { id: 'hip_flexor_stretch', text: '30 s por lado' },
         { id: 'calf_stretch', text: '30 s por lado' },
       ] },
     ],
@@ -126,7 +124,7 @@ export const ROUTINES = [
       ] },
       { title: 'Estirar', items: [
         { id: 'hip_flexor_stretch', text: '30 s por lado' },
-        { id: 'glute_stretch_lying', text: '30 s por lado' },
+        { id: 'quad_stretch', text: '30 s por lado' },
       ] },
     ],
   },

@@ -121,3 +121,62 @@ section > h2 { margin-bottom: 0; }
 .btn, .check, .tabs button, .segmented button, .pick, .palette, .exercise-head { touch-action: manipulation; }
 .progress-chip { align-self: flex-start; border-radius: 12px; line-height: 1.4; padding: 8px 12px; }
 main { padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
+
+/* ---- Part B: day checklist */
+.day-card { display: flex; flex-direction: column; gap: 18px; }
+.habit { display: flex; flex-direction: column; gap: 6px; }
+.habit-head { display: flex; justify-content: space-between; align-items: baseline; }
+.habit-name { font-weight: 600; font-size: 15px; }
+.habit-count { font-size: 14px; font-weight: 600; color: var(--accentInk); }
+.habit-slots { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+.slot { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--bg); font-size: 14px; font-weight: 500; color: var(--ink); touch-action: manipulation; transition: background .2s, color .2s, border-color .2s; }
+.slot.on { background: var(--accent); border-color: var(--accent); color: var(--onAccent); }
+.water-row { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
+.water-bar { flex: 1; height: 10px; border-radius: 999px; background: var(--accentSoft); overflow: hidden; }
+.water-bar span { display: block; height: 100%; border-radius: 999px; background: var(--accent); transition: width .3s ease; }
+.round-btn { width: 44px; height: 44px; border-radius: 14px; background: var(--accent); color: var(--onAccent); font-size: 22px; font-weight: 500; touch-action: manipulation; }
+.round-btn.soft { background: var(--accentSoft); color: var(--accentInk); }
+.round-btn:disabled { opacity: .4; }
+.day-done { text-align: center; font-weight: 600; color: var(--accentInk); font-size: 15px; }
+.plate { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.5; }
+
+/* ---- Part B: progress */
+.hero { display: flex; flex-direction: column; gap: 6px; }
+.hero-number { font-family: Fraunces, Georgia, serif; font-size: 40px; font-weight: 600; line-height: 1.1; }
+.hero-number small { font-family: Inter, sans-serif; font-size: 16px; color: var(--muted); font-weight: 500; }
+.goal-bar { height: 10px; border-radius: 999px; background: var(--accentSoft); overflow: hidden; margin-top: 8px; }
+.goal-bar span { display: block; height: 100%; background: var(--accent); border-radius: 999px; transition: width .5s ease; }
+.goal-labels { display: flex; justify-content: space-between; }
+.advice { display: flex; gap: 12px; align-items: flex-start; }
+.advice p { line-height: 1.5; }
+.advice-icon { color: var(--accentInk); flex: none; margin-top: 1px; }
+.advice.alert { background: var(--accentSoft); border-color: var(--accent); }
+.advice.care { background: var(--accentSoft); }
+.chart svg { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .axis { fill: var(--muted); font-size: 10px; }
+.chart .label { fill: var(--ink); font-size: 10px; font-weight: 600; }
+.chart .goal-line { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.chart .trend-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.chart .dot { fill: var(--muted); stroke: var(--card); stroke-width: 2; }
+.chart .dot.on { fill: var(--accentInk); }
+.chart .hit { fill: transparent; cursor: pointer; }
+.chart-tip { margin-top: 6px; text-align: center; }
+.weigh-card { display: flex; flex-direction: column; gap: 14px; }
+.weigh-card p { line-height: 1.5; }
+.big-field { height: 56px; }
+.big-field input { font-size: 22px; }
+.question { display: flex; flex-direction: column; gap: 8px; }
+.btn:disabled { opacity: .7; }
+.history { display: flex; flex-direction: column; padding: 6px 16px; }
+.history-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.history-row:last-child { border-bottom: 0; }
+.history-row span { flex: 1; color: var(--muted); }
+.history-row .link { padding: 4px 0 4px 8px; }
+
+/* ---- Settings additions */
+.goal-inputs { display: flex; gap: 10px; }
+.goal-inputs .field span:first-child { color: var(--ink); font-weight: 500; }
+.brand-footer { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 20px 0 4px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .08em; }
+.brand-footer img { opacity: .9; }
+.warn { color: var(--accentInk); font-weight: 600; line-height: 1.45; }

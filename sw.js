@@ -2,17 +2,18 @@
 // - App files (same origin): network first, so updates arrive; cache when offline.
 // - Libraries and fonts (esm.sh, Google Fonts) and GIFs: cache first; they never change for a given URL.
 // Bump CACHE whenever a GIF changes under the same name (GIFs are cache-first).
-const CACHE = 'catitapp-v2';
+const CACHE = 'catitapp-v4';
 const NETWORK_TIMEOUT_MS = 3000; // weak gym signal: fall back to the cache instead of hanging
 
 const APP_SHELL = [
   './', 'index.html', 'manifest.json', 'css/app.css',
   'js/main.js', 'js/lib.js', 'js/themes.js', 'js/storage.js', 'js/session.js', 'js/ui.js',
   'js/data/exercises.js', 'js/data/routines.js',
-  'js/screens/Today.js', 'js/screens/Workout.js', 'js/screens/Settings.js',
+  'js/screens/Today.js', 'js/screens/Workout.js', 'js/screens/Settings.js', 'js/screens/Progress.js', 'js/screens/DayCard.js',
+  'js/weight.js', 'js/data/nutrition.js', 'brand/mark.svg', 'icon-512.png',
   'icon-192.png', 'apple-touch-icon.png',
-  // All exercise GIFs, so every routine works offline from the first launch.
-  'gifs/arm_circles.gif', 'gifs/bench_bridge.gif', 'gifs/bench_squat.gif', 'gifs/calf_stretch.gif', 'gifs/curl_up.gif', 'gifs/db_row.gif', 'gifs/dead_bug.gif', 'gifs/farmer_carry.gif', 'gifs/glute_bridge.gif', 'gifs/goblet_squat.gif', 'gifs/hip_circles.gif', 'gifs/hip_flexor_stretch.gif', 'gifs/incline_pushup.gif', 'gifs/incline_walk.gif', 'gifs/quad_stretch.gif', 'gifs/rear_delt_side.gif', 'gifs/side_plank.gif', 'gifs/split_squat.gif', 'gifs/stairmaster.gif', 'gifs/step_up.gif',
+  // All exercise images, so every routine works offline from the first launch.
+  'gifs/arm_circles.gif', 'gifs/bench_bridge.gif', 'gifs/bench_squat.gif', 'gifs/bird_dog.jpg', 'gifs/calf_stretch.gif', 'gifs/curl_up.gif', 'gifs/db_row.gif', 'gifs/dead_bug.gif', 'gifs/farmer_carry.gif', 'gifs/glute_bridge.gif', 'gifs/goblet_squat.gif', 'gifs/hip_circles.gif', 'gifs/hip_flexor_stretch.gif', 'gifs/incline_pushup.gif', 'gifs/incline_walk.gif', 'gifs/march.gif', 'gifs/pelvic_breath.png', 'gifs/quad_stretch.gif', 'gifs/rear_delt_side.gif', 'gifs/side_plank.gif', 'gifs/split_squat.gif', 'gifs/stairmaster.gif', 'gifs/walk_easy.jpg',
 ];
 
 self.addEventListener('install', event => {
